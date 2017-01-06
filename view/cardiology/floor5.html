@@ -1,0 +1,273 @@
+<style type="text/css">
+
+
+#top-section{
+	background: #009966;
+	height: 70px;
+	padding: 20px;
+}
+
+#top-section h3{
+	line-height: 30px;
+	margin: 0px;
+	color: #fff;
+
+}
+
+#top-section h3 a{
+	color: #BBFFBB;
+}
+#top-section h3 a:hover{
+	color: #00B0F0;
+}
+
+/*楼层样式*/
+.floor{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	min-width: 960px;
+}
+table.floor5{
+	width: 100%;
+	height: 540px;
+	text-align: center;
+	border: 3px solid #666;
+	background: #CCCCFF;
+}
+.tr-15{
+	height:15%;
+}
+.tr-30{
+	height:30%;
+}
+.tr-40{
+	height:40%;
+}
+.td-47{
+	width:4.7%;
+}
+.td-60{
+	width:6%;
+}
+
+
+/*td内div文字垂直居中*/
+td div{
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+td div span{
+	display: table-cell;
+	vertical-align:middle; 
+}
+
+/*房间样式*/
+.nurse-station{
+	width: 80%;
+	height: 100%;
+	border-right: 1px solid #000;
+}
+.director-room{
+	height: 50%;
+	border-bottom: 1px solid #000;
+}
+.water-heater-room{
+	height: 50%;
+}
+
+.ccu-room{
+	background: #FF6666;
+}
+.personnel-room{
+	background: #99CCCC;
+}
+.sickroom{
+	background: #FFCCCC;
+}
+.js-facility{
+	background: #CCCCCC;
+}
+
+
+/*房间和设施鼠标样式*/
+.js-facility:hover,.js-room:hover{
+	cursor: pointer;
+}
+
+/*房间和设施鼠标样式*/
+.legend ul{
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+.legend ul li{
+	float: left;
+	list-style: none;
+	margin-left: 20px;
+}
+.legend ul li>div{
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	display: inline-block;
+}
+.legend ul li>span{
+	color: #FFF;
+	display: inline-block;
+}
+/*点击打开提示样式*/
+.role-span{
+	vertical-align:top;
+}
+.each-div{
+	display:inline-block;
+}
+
+</style>
+
+<div>
+	<div id="top-section" class="clearfix">
+		<div class="pull-left">
+			<h3>
+				<a href="<?=site_url('floor')?>"><i class="fa fa-chevron-circle-left"></i></a>
+				医院平面图（5楼）
+			</h3>
+		</div>
+		<div class="legend pull-right">
+			<ul>
+				<li>
+					<div class="ccu-room">&nbsp;</div>
+					<span>冠心病重症监护室</span>
+				</li>
+				<li>
+					<div class="personnel-room">&nbsp;</div>
+					<span>医院人员房间</span>
+				</li>
+				<li>
+					<div class="sickroom">&nbsp;</div>
+					<span>病房</span>
+				</li>
+				<li>
+					<div class="js-facility">&nbsp;</div>
+					<span>设施</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="floor">
+	 	<table class="floor5" border="1px">
+	 		<tbody>
+		 		<tr class="tr-15">
+		 			<td rowspan="2" class="js-facility" data-title="楼梯" js-facility-id="1">楼梯</td>
+		 			<td class="js-facility" data-title="洗手间" js-facility-id="2">洗手间</td>
+		 			<td rowspan="2"></td>
+		 			<td>
+		 				<div>
+		 					<div class="js-room director-room personnel-room" data-title="主任室" js-room-id="1">
+		 						<span>主任室</span>
+		 					</div>
+		 					<div class="js-facility water-heater-room" data-title="开水间" js-facility-id="3">
+		 						<span>开水间</span>
+		 					</div>
+		 				</div>
+		 			</td>
+		 			<td rowspan="2"></td>
+		 			<td rowspan="2" class="js-room personnel-room" data-title="护士长值班室" js-room-id="2">护士长值班室</td>
+		 			<td rowspan="2" class="js-room personnel-room" data-title="护士值班室" js-room-id="3">护士值班室</td>
+		 			<td rowspan="2" class="js-room personnel-room" data-title="医生值班室" js-room-id="4">医生值班室</td>
+		 			<td class="js-facility" data-title="电梯" js-facility-id="5">电梯</td>
+		 			<td rowspan="2"></td>
+		 			<td colspan="2"></td>
+		 			<td rowspan="2" class="js-room personnel-room" data-title="配药" js-room-id="6">配药</td>
+		 			<td rowspan="2" class="js-facility" data-title="楼梯" js-facility-id="7">楼梯</td>
+		 			<td colspan="3" rowspan="2" class="js-room ccu-room" data-title="ccu" js-room-id="7">ccu</td>
+		 			<td rowspan="2"></td>
+		 			<td rowspan="2" class="js-facility" data-title="洗漱间" js-facility-id="8">洗漱间</td>
+		 			<td rowspan="2" class="js-facility" data-title="楼梯" js-facility-id="9">楼梯</td>
+		 		</tr>
+		 		<tr class="tr-15">
+		 			<td></td>
+		 			<td class="js-facility" data-title="电梯"  js-facility-id="4">电梯</td>
+		 			<td class="js-facility" data-title="电梯" js-facility-id="6">电梯</td>
+					<td colspan="2">
+						<div>
+							<div class="js-room nurse-station personnel-room" data-title="护士站" js-room-id="5">
+								<span>护士站</span>
+							</div>
+						</div>
+					</td>
+		 		</tr>
+		 		<tr class="tr-30">
+			 		<td colspan="19"></td>
+			 		<td colspan="2"></td>
+		 		</tr>
+		 		<tr class="tr-40">
+			 		<td class="td-47 js-room sickroom" data-title="519" js-room-id="8">519</td>
+			 		<td class="td-47 js-room sickroom" data-title="518" js-room-id="9">518</td>
+			 		<td class="td-47 js-room sickroom" data-title="517" js-room-id="10">517</td>
+			 		<td class="td-47 js-room sickroom" data-title="516" js-room-id="11">516</td>
+			 		<td class="td-47 js-room sickroom" data-title="515" js-room-id="12">515</td>
+			 		<td class="td-47 js-room sickroom" data-title="514" js-room-id="13">514</td>
+			 		<td class="td-47 js-room sickroom" data-title="513" js-room-id="14">513</td>
+			 		<td class="td-47 js-room sickroom" data-title="512" js-room-id="15">512</td>
+			 		<td class="td-47 js-room sickroom" data-title="511" js-room-id="16">511</td>
+			 		<td class="td-47 js-room sickroom" data-title="510" js-room-id="17">510</td>
+			 		<td class="td-47 js-room sickroom" data-title="509" js-room-id="18">509</td>
+			 		<td class="td-47 js-room sickroom" data-title="508" js-room-id="19">508</td>
+			 		<td class="td-47 js-room sickroom" data-title="507" js-room-id="20">507</td>
+			 		<td class="td-47 js-room sickroom" data-title="506" js-room-id="21">506</td>
+			 		<td class="td-47 js-room sickroom" data-title="505" js-room-id="22">505</td>
+			 		<td class="td-47 js-room sickroom" data-title="504" js-room-id="23">504</td>
+			 		<td class="td-47 js-room sickroom" data-title="503" js-room-id="24">503</td>
+			 		<td class="td-47 js-room sickroom" data-title="502" js-room-id="25">502</td>
+			 		<td class="td-47 js-room sickroom" data-title="501" js-room-id="26">501</td>
+			 		<td class="td-60 js-facility" data-title="休息区" js-facility-id="10">休息区</td>
+		 		</tr>
+	 		</tbody>
+	 	</table>
+	</div>
+</div> 
+
+<link rel="stylesheet" href="<?=base_url('view/third/webui-popover/jquery.webui-popover.min.css')?>">
+<script src="<?=base_url('view/third/webui-popover/jquery.webui-popover.min.js')?>"></script>
+<script>
+
+
+window.onload = function(){
+	$(".js-facility").mouseover(function(){
+		var url = "<?=site_url('floor/get_facility_info/')?>" + $(this).attr('js-facility-id');
+		var facilityAsyncSettings = {
+			trigger:'click',
+			placement:'auto',
+			style:'inverse',
+			url: url,
+            type:'async',
+            cache:false,
+            content:function(data){
+            	return data;
+            }
+		}
+		$(this).webuiPopover(facilityAsyncSettings);
+	});
+
+	$(".js-room").mouseover(function(){
+		var url = "<?=site_url('floor/get_room_info/')?>" + $(this).attr('js-room-id');
+		var roomAsyncSettings = {
+			trigger:'click',
+			placement:'auto',
+			style:'inverse',
+			url: url,
+            type:'async',
+            cache:false,
+            content:function(data){
+            	return data;
+            }
+		}
+		$(this).webuiPopover(roomAsyncSettings);
+	});
+	
+
+}
+</script>

@@ -1,0 +1,91 @@
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<h2 class="text-center">医生信息</h2>
+	</div>
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table id="sample-table" class="table table-striped table-bordered table-hover" width="100%">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>姓名</th>
+						<th>医生等级</th>
+						<th>是否是专家</th>
+						<th>医生性别</th>
+						<th>医生手机号</th>
+						<th>入职日期</th>
+						<th>详细信息</th>
+					</tr>
+				</thead>
+
+			</table>
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+
+//dataTable
+var table = $('#sample-table').DataTable({
+	"ordering": false,
+	"searching": false,
+	"serverSide": true,
+    "ajax": "<?=site_url('doctor/get_doctor')?>",
+	"columns": [
+	   { "data": "doc_id" },
+	   { "data": "doc_name" },
+	   { "data": "doc_level" },
+	   { "data": "is_special" },
+	   { "data": "doc_sex" },
+	   { "data": "doc_phone" },
+	   { "data": "entry_date" },
+	   { 
+	       	"data": "doc_id",
+	        "render": function(data) {
+	        	var html = "<a class='btn btn-sm btn-success' onclick='show_doctor_info("+ data +")'>获取详细信息</a>"
+	        	return html;
+	    	}
+		}
+	],
+
+  
+  
+	"language": {
+		"processing": "处理中...",
+		"lengthMenu": "显示 _MENU_ 项结果",
+		"zeroRecords": "没有匹配结果",
+		"info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+		"infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+		"infoFiltered": "(由 _MAX_ 项结果过滤)",
+		"infoPostFix": "",
+		"search": "搜索:",
+		"searchPlaceholder": "搜索...",
+		"url": "",
+		"emptyTable": "表中数据为空",
+		"loadingRecords": "载入中...",
+		"infoThousands": ",",
+		"paginate": {
+		    "first": "首页",
+		    "previous": "上页",
+		    "next": "下页",
+		    "last": "末页"
+		},
+		"aria": {
+		    "paginate": {
+		        first: '首页',
+		        previous: '上页',
+		        next: '下页',
+		        last: '末页'
+		    },
+		    "sortAscending": ": 以升序排列此列",
+		    "sortDescending": ": 以降序排列此列"
+		},
+		"decimal": "-",
+		"thousands": "."
+	},
+   
+});
+</script>
+
+</html>

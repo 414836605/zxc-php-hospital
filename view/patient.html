@@ -1,0 +1,95 @@
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<h2 class="text-center">患者信息</h2>
+	</div>
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table id="sample-table" class="table table-striped table-bordered table-hover" width="100%">
+				<thead>
+					<tr>
+						<th>住院号</th>
+						<th>患者姓名</th>
+						<th>押金余额</th>
+						<th>科别</th>
+						<th>病房</th>
+						<th>病床</th>
+						<th>详细信息</th>
+					</tr>
+				</thead>
+
+			</table>
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+
+//dataTable
+var table = $('#sample-table').DataTable({
+	"ordering": false,
+	"searching": false,
+	"serverSide": true,
+    "ajax": "<?=site_url('patient/get_patient')?>",
+    
+	"columns": [
+	   { "data": "pat_id" },
+	   { "data": "pat_name" },
+	   { "data": "cash_pledge" },
+	   { "data": "department" },
+	   { "data": "room_name" },
+	   { "data": "sickbad" },
+	   { 
+	       	"data": null,
+		        "render": function(data) {
+		        	var html = "<a class='btn btn-sm btn-success' onclick='show_patient_info("+ data['pat_id'] +")'>获取详细信息</a><a class='btn btn-sm btn-info' onclick='_call_print_patient("+ JSON.stringify(data) +")'>打印二维码</a>"
+	        		return html;
+		    	}, 
+			}
+	],
+
+  
+  
+	"language": {
+		"processing": "处理中...",
+		"lengthMenu": "显示 _MENU_ 项结果",
+		"zeroRecords": "没有匹配结果",
+		"info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+		"infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+		"infoFiltered": "(由 _MAX_ 项结果过滤)",
+		"infoPostFix": "",
+		"search": "搜索:",
+		"searchPlaceholder": "搜索...",
+		"url": "",
+		"emptyTable": "表中数据为空",
+		"loadingRecords": "载入中...",
+		"infoThousands": ",",
+		"paginate": {
+		    "first": "首页",
+		    "previous": "上页",
+		    "next": "下页",
+		    "last": "末页"
+		},
+		"aria": {
+		    "paginate": {
+		        first: '首页',
+		        previous: '上页',
+		        next: '下页',
+		        last: '末页'
+		    },
+		    "sortAscending": ": 以升序排列此列",
+		    "sortDescending": ": 以降序排列此列"
+		},
+		"decimal": "-",
+		"thousands": "."
+	},
+   
+});
+
+function _call_print_patient(data){
+	var patient = typeof data == 'string' ? JSON.parse(data) : data;
+	print_patient(patient);
+}
+</script>
+
+</html>

@@ -1,0 +1,83 @@
+<style>
+#himg{
+	width: 100%;
+	position: relative;
+}
+#cardiology{
+	position: absolute;
+	top: 0px;
+	margin-top: 62%;
+	left: 12%;
+	width: 25%;
+	height: 0px;
+	padding-bottom: 28%;
+}
+#surgery{
+	position: absolute;
+	top: 0px;
+	margin-top: 40%;
+	left: 74%;
+	width: 19%;
+	height: 0px;
+	padding-bottom: 35%;
+}
+#cadre-ward{
+	position: absolute;
+	top: 0px;
+	margin-top: 44%;
+	left: 5%;
+	width: 20%;
+	height: 0px;
+	padding-bottom: 17%;
+}
+#administrative-building{
+	position: absolute;
+	top: 0px;
+	margin-top: 32%;
+	left: 58%;
+	width: 19%;
+	height: 0px;
+	padding-bottom: 14%;
+}
+.build h3{
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	font-size: 30px;
+	text-align: center;
+	color: #00A2E8;
+}
+.build:hover h3{
+	color: #ED1C24;
+	cursor: pointer;
+}
+</style>
+<img id="himg" src="<?=base_url('view/img/himg.jpg')?>" alt="" usemap="#a">
+<div id="cover">
+</div>
+<a href="<?=site_url('floor/index')?>">
+	<div id="cardiology" class="build">
+		<h3>心内科楼</h3>
+	</div>
+</a>
+<a href="<?=site_url('floor/index')?>">
+	<div id="surgery" class="build">
+		<h3>外科楼</h3>
+	</div>
+</a>
+<a href="<?=site_url('floor/index')?>">
+	<div id="cadre-ward" class="build">
+		<h3>干部病房楼</h3>
+	</div>
+</a>
+<a href="<?=site_url('floor/index')?>">
+	<div id="administrative-building" class="build">
+		<h3>行政楼</h3>
+	</div>
+</a>
+<script>
+window.onload = function(){
+	$img_height = $('#himg').height();
+	$img_width = $('#himg').width();
+}
+</script>

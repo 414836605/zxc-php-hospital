@@ -1,0 +1,173 @@
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<h2 class="text-center">患者录入</h2>
+	</div>
+	<div class="panel-body">
+		<div class="container">
+			<form id="js-add-patient-form" class="form">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4">
+							<label class="control-label">姓名&nbsp;<span class="text-danger">*</span></label>
+							<input type="text" id="js-pat-name" name="pat_name" class="form-control" placeholder="请输入姓名（必填项）">
+						</div>
+						<div class="col-md-4">
+							<label class="control-label">性别</label>
+							<div>
+								<label class="radio-inline">
+									<input type="radio" name="sex" value="男" checked="checked"> 男
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="sex" value="女"> 女
+								</label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label">年龄</label>
+							<input type="text" name="age" class="form-control" placeholder="输入年龄（数值0-200）">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label class="control-label">婚姻</label>
+							<div>
+								<label class="radio-inline">
+									<input type="radio" name="marriage" value="1" checked="checked"> 已婚
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="marriage"  value="0"> 未婚
+								</label>
+							</div>
+						</div>
+					
+						<div class="col-md-4">
+							<label class="control-label">出生地</label>
+							<div id="select-city" class="row">
+								<div class="col-md-4">
+									<select name="birthplace[]" class="prov form-control"></select> 
+								</div>
+						  		<div class="col-md-4">
+						    		<select name="birthplace[]" class="city form-control" disabled="disabled"></select>
+						    	</div>
+						    	<div class="col-md-4">
+						        	<select name="birthplace[]" class="dist form-control" disabled="disabled"></select>
+						        </div>
+						    </div>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label">民族</label>
+							<select name="nationality" id="nationality" class="form-control">
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label class="control-label">职业</label>
+							<input type="text" name="job" class="form-control" placeholder="职业">
+						</div>
+						<div class="col-md-4">
+							<label class="control-label">工作单位</label>
+							<input type="text" name="company" class="form-control" placeholder="工作单位">
+						</div>
+					
+						<div class="col-md-4">
+							<label class="control-label">住址</label>
+							<input type="text" name="address" class="form-control" placeholder="住址">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label class="control-label">供史者</label>
+							<select name="provider" class="form-control">
+								<option value="家人">家人</option>
+								<option value="朋友">朋友</option>
+								<option value="其他人员">其他人员</option>
+							</select>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label">可靠度</label>
+							<select name="reliability" class="form-control">
+								<option value="9">非常可靠</option>
+								<option value="6">可靠</option>
+								<option value="3">基本可靠</option>
+								<option value="0">不可靠</option>
+							</select>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label">手机号</label>
+							<input type="text" name="phone" class="form-control" placeholder="手机号">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-6 text-right"><input onclick="do_add_patient()" type='button' class="btn btn-success" value="确定录入"></div>
+					<div class="col-md-6 text-left"><a href="javascript:history.back();" title="返回上一页" class="btn btn-info">取消录入</a></div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- 
+<div style='width:420px;height:594px'>
+	<div class='clearfix' style='padding: 10px 60px'>
+		<div class='clearfix'>
+			<div class='pull-left'>姓名：刘建峥</div>
+			<div class='pull-right'>住院号：16037513</div>
+		</div>
+		<canvas id='js-QR-code' style='height:300px;width:300px;margin: 20px 0 0'></canvas>
+		<div style='height:1px;width:100%;margin:20px 0;background-color:#000'></div>
+		<div id='js-barcode' style='height:150px;margin:0 auto'></div>
+	</div>
+</div>
+ -->
+<script src="<?=base_url('view/third/cityselect/jquery.cityselect.js')?>"></script>
+
+
+<script type="text/javascript">
+
+$(function(){
+	//出生地
+	$("#select-city").citySelect({
+		url:"<?=base_url('view/third/cityselect/city.min.js')?>",
+		prov:"北京"
+	});
+	//民族
+	$nationality = $("#nationality");
+	$.getJSON("<?=base_url('view/third/nationality.json')?>",function(nationalitys){
+		nationality_html = $nationality.html();
+		$.each(nationalitys['data'],function(i,nationality){
+			nationality_html+="<option value='"+nationality.name+"'>"+nationality.name+"</option>";
+		});
+		$nationality.html(nationality_html);
+	});
+
+});
+function do_add_patient(){
+	if($("#js-pat-name").val() != ''){
+		$.ajax({
+		    type: 'post',
+		    url: "<?=site_url('patient/do_add_patient')?>",
+		    data: $("#js-add-patient-form").serialize(),
+		    success: function(data) {
+		        if (data['state'] == 1) {
+		        	print_patient(data['patient']);
+		        }else if(data['state'] == 0){
+		        	$.confirm({
+		        		content: '添加失败'
+		        	});
+		        }else{
+		        	$.confirm({
+		        		content: '服务器错误'
+		        	});
+		        }
+		    }
+		});
+	}else{
+		alert("患者名字为必填项");
+	}
+	
+}
+
+</script>
+
+</html>

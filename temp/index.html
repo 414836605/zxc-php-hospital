@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./jquery-1.10.2.min.js"></script>
+	<style type="text/css">
+		.floor{
+			position: relative;
+			width: 960px;
+			height: 320px;
+			background: #555;
+			
+		}
+		.sickroom{
+			position: absolute;
+			background: #191;
+		}
+		.sickroom1{
+			width: 100px;
+			height: 100px;
+			top: 10px;
+			left: 10px;
+		}
+		.sickroom2{
+			background: pink;
+			width: 100px;
+			height: 100px;
+			top: 110px;
+			left: 10px;
+		}
+		.sickbad{
+			float: left;
+			margin-left: 20px;
+			margin-bottom: 10px;
+			width: 50px;
+			background: red;
+		}
+		.sickbad1{
+			height: 20px;
+			top: 10px;
+			left: 10px;
+		}
+		.sickbad2{
+	
+			height: 20px;
+			top: 40px;
+			left: 10px;
+		}
+		.sickbad3{
+			height: 20px;
+			top: 10px;
+			left: 40px;
+		}
+	</style>
+</head>
+<body>
+<div class="floor">
+	<div class="sickroom sickroom1">
+		<div class="sickbad sickbad1">空</div>
+		<div class="sickbad sickbad2">张三</div>
+		<div class="sickbad sickbad3">李四</div>
+	</div>
+	<div class="sickroom sickroom2">
+		<div class="sickbad sickbad1">空</div>
+		<div class="sickbad sickbad2">张三</div>
+		<div class="sickbad sickbad3">李四</div>
+	</div>
+	<div class="sickroom sickroom3">
+		
+	</div>
+	<div class="sickroom sickroom4">
+		
+	</div>
+</div>
+
+<div class="sickroom-info">
+	<ul>
+		<li>房间号：520</li>
+		<li>病床数：3</li>
+		<li>空余病床：1</li>
+	</ul>
+</div>
+
+<div class="patient-info">
+	<ul>
+		<li>姓名：张三</li>
+		<li>性别：男</li>
+		<li>症状：感冒</li>
+		<li>余额：12450</li>
+	</ul>
+</div>
+
+
+<script type="text/javascript">
+	$(function(){
+		$(".sickroom1").hover(function(){
+			alert("显示病房");
+		});
+		$(".sickbad1").hover(function(){
+			alert("床");
+		});
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<style type="text/css">
+	.my-breadcrumb{
+		margin-bottom: 0px;
+	}
+	
+
+	.floor{
+		position: relative;
+		width: 100%;
+		height: 100%;
+		min-width: 960px;
+	}
+	table.floor1{
+		width: 100%;
+		height: 540px;
+		background: #999;
+	}
+	.tr-15{
+		height:15%;
+	}
+	.tr-30{
+		height:30%;
+	}
+	.tr-40{
+		height:40%;
+	}
+	.td-47{
+		width:4.7%;
+	}
+	.td-60{
+		width:6%;
+	}
+</style>
+
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<h2 class="text-center">《阜新市医院平面图》</h2>
+	</div>
+	<div class="panel-body">
+	<div class="floor">
+	 	<table class="floor1" border="1px">
+	 		<tbody>
+		 		<tr class="tr-15">
+		 			<td rowspan="2">楼梯</td>
+		 			<td>洗手间</td>
+		 			<td>
+		 				<div>主任室开水间</div>
+		 			</td>
+		 			<td rowspan="2"></td>
+		 			<td rowspan="2">护士长值班室</td>
+		 			<td rowspan="2">护士值班室</td>
+		 			<td rowspan="2">医生值班室</td>
+		 			<td>电梯1</td>
+		 			<td rowspan="2"></td>
+		 			<td colspan="2"></td>
+		 			<td rowspan="2">配药</td>
+		 			<td rowspan="2">楼梯</td>
+		 			<td rowspan="2">ccu</td>
+		 			<td colspan="3" rowspan="2"></td>
+		 			<td rowspan="2">洗漱间</td>
+		 			<td rowspan="2">楼梯间</td>
+		 		</tr>
+		 		<tr class="tr-15">
+		 			<td></td>
+		 			<td>电梯</td>
+		 			<td>电梯2</td>
+					<td colspan="2"><div>护士站（    ）</div></td>
+		 		</tr>
+		 		<tr class="tr-30">
+			 		<td colspan="19"></td>
+			 		<td colspan="2"></td>
+		 		</tr>
+		 		<tr class="tr-40">
+			 		<td class="td-47">519</td>
+			 		<td class="td-47">518</td>
+			 		<td class="td-47">517</td>
+			 		<td class="td-47">516</td>
+			 		<td class="td-47">515</td>
+			 		<td class="td-47">514</td>
+			 		<td class="td-47">513</td>
+			 		<td class="td-47">512</td>
+			 		<td class="td-47">511</td>
+			 		<td class="td-47">510</td>
+			 		<td class="td-47">509</td>
+			 		<td class="td-47">508</td>
+			 		<td class="td-47">507</td>
+			 		<td class="td-47">506</td>
+			 		<td class="td-47">505</td>
+			 		<td class="td-47">504</td>
+			 		<td class="td-47">503</td>
+			 		<td class="td-47">502</td>
+			 		<td class="td-47">501</td>
+			 		<td class="td-60">休息区</td>
+		 		</tr>
+	 		</tbody>
+	 	</table>
+	 </div>
+	</div>
+</div>
+
+<link rel="stylesheet" href="//cdn.bootcss.com/webui-popover/2.1.15/jquery.webui-popover.css">
+<script src="//cdn.bootcss.com/webui-popover/2.1.15/jquery.webui-popover.js"></script>
+<script>
+	
+	window.onload = function(){
+		// alert( $(".floor").css("height"));
+		// $(".floor1").css("height", $(".floor").css("height"));
+		$(".sickroom").mouseover(function(){
+			$(this).webuiPopover('show');
+		})
+		$(".sickroom1").webuiPopover({title:'520',content:'病床数：3<br/>空余病床：1',trigger:'hover',placement:'right',style:'inverse'});
+		$(".sickroom2").webuiPopover({title:'521',content:'病床数：3<br/>空余病床：1',trigger:'hover',placement:'right',style:'inverse'});
+		$(".sickbad1").webuiPopover({title:'空',content:'空闲',trigger:'hover',placement:'right',style:'inverse'});
+		$(".sickbad2").webuiPopover({title:'张三',content:'性别：男<br/>症状：感冒<br/>余额：450',trigger:'hover',placement:'right',style:'inverse'});
+		$(".sickbad3").webuiPopover({title:'李四',content:'性别：男<br/>症状：感冒<br/>余额：450',trigger:'hover',placement:'right',style:'inverse'});
+	}
+</script>
+</html>

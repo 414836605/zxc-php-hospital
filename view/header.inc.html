@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- 让360用webkit -->
+<meta name="renderer" content="webkit">
+<title></title>
+<!-- bootstrap -->
+<link rel="stylesheet" href="<?=base_url('view/css/bootstrap.min.css')?>">
+
+<!-- font-awesome -->
+<link href="<?=base_url('view/third/font-awesome/css/font-awesome.min.css')?>"
+	rel="stylesheet">
+
+<!-- data-tables -->
+<link href="<?=base_url('view/third/data-tables/dataTables.bootstrap.min.css')?>"
+	rel="stylesheet">
+
+<!-- confirm -->
+<link rel="stylesheet"
+	href="<?=base_url('view/third/confirm/jquery-confirm.min.css')?>">
+
+<!-- datepicker -->
+<link rel="stylesheet"
+	href="<?=base_url('view/third/datepicker/datepicker.min.css')?>">
+
+
+
+<!-- jquery -->
+<script src="<?=base_url('view/js/jquery-1.10.2.min.js')?>"></script>
+
+<!-- bootstrap -->
+<script src="<?=base_url('view/js/bootstrap.min.js')?>"></script>
+
+<!-- data-tables -->
+<script src="<?=base_url('view/third/data-tables/jquery.dataTables.js')?>"></script>
+<script src="<?=base_url('view/third/data-tables/dataTables.bootstrap.min.js')?>"></script>
+
+<!-- confirm -->
+<script type="text/javascript"
+	src="<?=base_url('view/third/confirm/jquery-confirm.min.js')?>"></script>
+
+<!-- validform -->
+<script type="text/javascript"
+	src="<?=base_url('view/third/validform/validform.js')?>"></script>
+
+<!-- datepicker -->
+<script type="text/javascript"
+	src="<?=base_url('view/third/datepicker/datepicker.min.js')?>"></script>
+<script type="text/javascript"
+	src="<?=base_url('view/third/datepicker/i18n/datepicker.en.js')?>"></script>
+<script src="<?=base_url('view/third/qrious.min.js')?>"></script>
+<script src="<?=base_url('view/third/jquery-barcode.min.js')?>"></script>
+<script src="<?=base_url('view/third/jQuery.print.js')?>"></script>
+<style>
+/*---------- nav ------------*/
+#zjf-nav{
+	margin-bottom: 0px;
+}
+/*---------- datatables ------------*/
+.table-responsive div,table,label {
+	font-size: 16px !important;
+}
+/*---------- list-group ------------*/
+.my-list-group-item-heading{
+	color: #00A2E8;
+}
+
+/*---------- Validform_checktip ------------*/
+.Validform_checktip {
+	color: #999;
+	font-size: 12px;
+	height: 20px;
+	line-height: 20px;
+	overflow: hidden;
+}
+
+.Validform_right {
+	color: #71b83d;
+}
+
+.Validform_wrong {
+	color: red;
+}
+
+.Validform_loading {
+	
+}
+
+.Validform_error {
+	background-color: #ffe7e7;
+}
+
+</style>
+
+
+<script type="text/javascript">
+	var format_time = function(data) {
+		return new Date(parseInt(data)).toLocaleString().replace(/:\d{1,2}$/,
+				' ');
+	};
+
+
+	function show_patient_info(id){
+		$.confirm({
+		    content: "url:<?=site_url('patient/get_patient_by_id/')?>" + id,
+		    cancelButton: false,
+		    confirmButton: '关闭',
+		    confirmButtonClass: 'btn-warning',
+		    closeIcon: true,
+		    backgroundDismiss: true,
+		    columnClass: 'col-md-10 col-md-offset-1',
+		    contentLoaded: function(data, status, xhr){
+		    	var data = typeof data == 'string' ? JSON.parse(data) : data;
+		    	if (status == 'success') {
+		    		var html = "<table class='table table-bordered table-condensed'><tr>";
+		    		html += "<td>姓名：" + data['pat_name'] + "</td>";
+					html += "<td>住院号：" + data['pat_id'] + "</td>";
+					html += "<td>床号：" + data['sickbad'] + "</td>";
+					html += "<td>科别：" + data['department'] + "</td></tr>";
+					html += "<tr><td>性别："+ data['sex'] +"</td>";
+					html += "<td>年龄："+ data['age'] +"</td>";
+					html += "<td>民族："+ data['nationality'] +"</td>";
+					html += "<td>押金剩余："+ data['cash_pledge'] +"</td></tr>";
+					html += "<tr><td colspan='4'>"+ data['temporary_orders'] +"</td></tr>";
+					html += "<tr><td colspan='4'>"+ data['standing_orders'] +"</td></tr>";
+					html += "<tr><td colspan='4'>"+ data['medical_history'] +"</td></tr>";
+					html += "<tr><td colspan='4'>"+ data['medical_record'] +"</td></tr></table>";
+	            	this.setTitle(data['pat_name']);
+	            	this.setContent(html);
+		    	}
+		    }
+		});
+	}
+
+	function show_doctor_info(id){
+		$.confirm({
+		    content: "url:<?=site_url('doctor/get_doctor_by_id/')?>" + id,
+		    cancelButton: false,
+		    confirmButton: '关闭',
+		    confirmButtonClass: 'btn-warning',
+		    columnClass: 'col-md-10 col-md-offset-1',
+		    contentLoaded: function(data, status, xhr){
+		    	var data = typeof data == 'string' ? JSON.parse(data) : data;
+		    	if (status == 'success') {
+		    		var html = "<table class='table table-bordered table-condensed'><tr>";
+		    		html += "<td>姓名：" + data['doc_name'] + "</td>";
+					html += "<td>医生等级：" + data['doc_level'] + "</td>";
+					html += "<td>是否是专家：" + data['is_special'] + "</td>";
+					html += "<td>性别：" + data['doc_sex'] + "</td></tr>";
+					html += "<tr><td>手机号："+ data['doc_phone'] +"</td>";
+					html += "<td>入职日期："+ data['entry_date'] +"</td>";
+					html += "</tr></table>";
+	            	this.setTitle(data['doc_name']);
+	            	this.setContent(html);
+		    	}
+		    }
+		});
+	}
+
+	function show_nurse_info(id){
+		$.confirm({
+		    content: "url:<?=site_url('nurse/get_nurse_by_id/')?>" + id,
+		    cancelButton: false,
+		    confirmButton: '关闭',
+		    confirmButtonClass: 'btn-warning',
+		    columnClass: 'col-md-10 col-md-offset-1',
+		    contentLoaded: function(data, status, xhr){
+		    	var data = typeof data == 'string' ? JSON.parse(data) : data;
+		    	if (status == 'success') {
+		    		var html = "<table class='table table-bordered table-condensed'><tr>";
+		    		html += "<td>姓名：" + data['nur_name'] + "</td>";
+					html += "<td>等级：" + data['nur_level'] + "</td>";
+					html += "<td>性别：" + data['nur_sex'] + "</td>";
+					html += "<td>" + '' + "</td></tr>";
+					html += "<tr><td>手机号："+ data['nur_phone'] +"</td>";
+					html += "<td>入职日期："+ data['entry_date'] +"</td>";
+					html += "</tr></table>";
+	            	this.setTitle(data['nur_name']);
+	            	this.setContent(html);
+		    	}
+		    }
+		});
+	}
+
+	function print_patient(patient){
+		var html = "<div style='width:420px;height:594px;margin:0 auto' id='js-print'><div class='clearfix' style='padding: 10px 60px'><div class='clearfix'><div class='pull-left'>姓名：" + patient['pat_name'] + "</div><div class='pull-right'>住院号：" + patient['pat_id'] + "</div></div><img id='js-QR-code' style='height:300px;width:300px;margin: 20px 0 0'></img><div style='height:1px;width:100%;margin:20px 0;background-color:#000'></div><div id='js-barcode' style='height:150px;margin:0 auto'></div></div></div>";
+		$.confirm({
+			title: false,
+			content: html,
+			columnClass: 'col-md-6 col-md-offset-3',
+			confirmButton: '打印',
+			cancelButton: '取消',
+			confirm: function(){
+		        $('#js-print').print();
+		    }
+		});
+		//二维码和条形码
+		var my_qr = new QRious({
+	    	element: document.getElementById('js-QR-code'),
+	    	size: '300'
+	  	});
+	  	my_qr.value = patient['pat_id'];
+		$("#js-barcode").barcode(patient['pat_id'], "code39", {output: 'css', barWidth: '1', barHeight: '100'});
+	}
+</script>
+</head>
+<body>
+<div style="height:50px;"></div>
+<nav id="zjf-nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">阜新市医院管理</a>
+		</div>
+
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-leaf"></i>&nbsp;医院整体信息<span class="caret"></span></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="<?=site_url('home')?>"><i class="fa fa-cubes"></i>&nbsp;医院平面图</a></li>
+					<li class="divider"></li>
+					<li><a href="<?=site_url('floor')?>"><i class="fa fa-building"></i>&nbsp;心内科平面图</a></li>
+					<li><a href="<?=site_url('floor')?>"><i class="fa fa-building"></i>&nbsp;外科平面图</a></li>
+					<li><a href="<?=site_url('floor')?>"><i class="fa fa-building"></i>&nbsp;干部病房平面图</a></li>
+					<li><a href="<?=site_url('floor')?>"><i class="fa fa-building"></i>&nbsp;行政楼平面图</a></li>
+					<li class="divider"></li>
+					<li><a href="#">病房信息</a></li>
+					<li><a href="#">值班情况</a></li>
+				</ul>
+			</li>
+
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">患者信息<span class="caret"></span></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="<?=site_url('patient/add_patient')?>">患者录入</a></li>
+					<li class="divider"></li>
+					<li><a href="<?=site_url('patient')?>">全部患者信息</a></li>
+					<li class="divider"></li>
+					<li><a href="#">住院患者</a></li>
+					<li><a href="#">已出院患者</a></li>
+				</ul>
+			</li>
+
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">医生信息<span class="caret"></span></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="<?=site_url('doctor')?>">全部医生信息</a></li>
+					<li class="divider"></li>
+					<li><a href="#">在职医生</a></li>
+					<li><a href="#">请假医生</a></li>
+				</ul>
+			</li>
+
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">护士信息<span class="caret"></span></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="<?=site_url('nurse')?>">全部护士信息</a></li>
+					<li class="divider"></li>
+					<li><a href="#">在职护士</a></li>
+					<li><a href="#">请假护士</a></li>
+				</ul>
+			</li>
+
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<?php if(isset($_SESSION['user'])):?>
+					<li><span class="navbar-text"><?=$_SESSION['user']['role']?>：<?=$_SESSION['user']['name']?>&nbsp;&nbsp;&nbsp;<a href="<?=site_url('user/logout')?>">注销</a></span></li>
+				<?php endif;?>
+			</ul>
+			<form class="navbar-form navbar-right" role="search">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="请输入关键字。。。">
+				</div>
+				<button type="submit" class="btn btn-default">搜索</button>
+			</form>	
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+
