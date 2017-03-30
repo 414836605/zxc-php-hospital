@@ -1,6 +1,12 @@
 drop database if exists hospital;
 create database hospital default character set utf8;
 
+grant all on hospital.* to 'hospital'@'%' identified by '123456';
+grant all on hospital.* to 'hospital'@'localhost' identified by '123456';
+flush privileges;
+
+set names utf8;
+
 use hospital;
 drop table if exists `user`;
 create table user(
