@@ -4,6 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Patient_model extends CI_Model {
 	const TBL_PATIENT = 'patient';
 	const TBL_ROOM = 'room';
+
+	public function pay($pat_id,$payment_amount){
+		// var_dump($this->db->last_query());
+		// die;
+		return $this->db->set('cash_pledge', 'cash_pledge + '.$payment_amount, false)->where('pat_id', $pat_id)->update(self::TBL_PATIENT);
+	}
+
 	/*
 	*查询患者数
 	*/

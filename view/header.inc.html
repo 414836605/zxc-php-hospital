@@ -52,6 +52,7 @@
 <script src="<?=base_url('view/third/qrious.min.js')?>"></script>
 <script src="<?=base_url('view/third/jquery-barcode.min.js')?>"></script>
 <script src="<?=base_url('view/third/jQuery.print.js')?>"></script>
+<script src="<?=base_url('view/node_modules/signature_pad/dist/signature_pad.min.js')?>"></script>
 <style>
 /*---------- nav ------------*/
 #zjf-nav{
@@ -203,6 +204,34 @@
 	  	my_qr.value = patient['pat_id'];
 		$("#js-barcode").barcode(patient['pat_id'], "code39", {output: 'css', barWidth: '1', barHeight: '100'});
 	}
+
+	function ajax_success(data,table = null) {
+        if (data['status'] === true) {
+        	$.alert({
+        		title: '提示',
+        		content: data.msg,
+			    confirmButton: '确定',
+			    confirmButtonClass: 'btn-info',
+        	});
+        	table !== null && table.ajax.reload( null, false );
+        }else if(data['status'] === false){
+        	$.alert({
+        		title: '提示',
+        		content: data.msg,
+			    confirmButton: '确定',
+			    confirmButtonClass: 'btn-info',
+        	});
+        }else{
+        	$.alert({
+        		title: '警告',
+        		content: '服务器错误',
+        		confirmButton: '确定',
+			    confirmButtonClass: 'btn-info',
+        	});
+        }
+    }
+
+    
 </script>
 </head>
 <body>

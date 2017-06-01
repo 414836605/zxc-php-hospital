@@ -204,7 +204,9 @@ create table temporary_orders(
 	create_time int(13) not null comment '创建时间',
 	execute_time int(13) default '0' comment  '执行时间',
 	doctor_name varchar(20) not null comment '医生姓名',
+	doctor_sign varchar(255) not null comment '医生签字图片路径',
 	nurse_name varchar(20) default '' comment '护士姓名',
+	nurse_sign varchar(255) default '' comment '护士签字图片路径',
 	pat_id int(11) not null comment '所属患者id',
 	primary key(to_id)
 ) engine=InnoDB default charset=utf8;
@@ -333,9 +335,13 @@ create table standing_orders(
 	stop_create_time int(13) default 0 comment '停止创建时间',
 	stop_time int(13) default 0 comment '停止执行时间',
 	start_doctor_name varchar(20) default '' comment '开始医生',
+	start_doctor_sign varchar(255) default '' comment '医生签字图片路径',
 	start_nurse_name varchar(20) default '' comment '开始护士',
+	start_nurse_sign varchar(255) default '' comment '医生签字图片路径',
 	stop_doctor_name varchar(20) default '' comment '停止医生',
+	stop_doctor_sign varchar(255) default '' comment '医生签字图片路径',
 	stop_nurse_name varchar(20) default '' comment '停止护士',
+	stop_nurse_sign varchar(255) default '' comment '医生签字图片路径',
 	pat_id int(11) not null comment '所属患者id',
 	primary key(so_id)
 ) engine=InnoDB default charset=utf8;

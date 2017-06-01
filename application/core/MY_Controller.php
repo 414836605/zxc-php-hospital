@@ -12,3 +12,16 @@ class Home_Controller extends CI_Controller{
 	}
 	
 }
+
+class Base_Controller extends CI_Controller {
+    public function __construct() {
+        parent::__construct();
+    }
+    
+    protected function returnResult($result) {
+        header("Content-type: application/json");
+        echo json_encode($result);
+        die();
+    }
+
+}

@@ -13,7 +13,7 @@
 						<th>科别</th>
 						<th>病房</th>
 						<th>病床</th>
-						<th>详细信息</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 
@@ -40,12 +40,12 @@ var table = $('#sample-table').DataTable({
 	   { "data": "room_name" },
 	   { "data": "sickbad" },
 	   { 
-	       	"data": null,
-		        "render": function(data) {
-		        	var html = "<a class='btn btn-sm btn-success' onclick='show_patient_info("+ data['pat_id'] +")'>获取详细信息</a><a class='btn btn-sm btn-info' onclick='_call_print_patient("+ JSON.stringify(data) +")'>打印二维码</a>"
-	        		return html;
-		    	}, 
-			}
+       	"data": null,
+	        "render": function(data) {
+	        	var html = "<a class='btn btn-sm btn-primary' onclick='show_pay("+ data['pat_id'] +")'>缴费</a><a class='btn btn-sm btn-success' onclick='show_patient_info("+ data['pat_id'] +")'>获取详细信息</a><a class='btn btn-sm btn-warning' onclick='_call_print_patient("+ JSON.stringify(data) +")'>打印二维码</a><div id='js-hide-pfunc-"+ data['pat_id'] +"' style='display: none'><a class='btn btn-sm btn-info' onclick='show_add_temporary_orders("+ data['pat_id'] +")'>添加临时医嘱</a><a class='btn btn-sm btn-info' onclick='show_add_standing_orders("+ data['pat_id'] +")'>添加长期医嘱</a></div><a class='btn btn-sm btn-info' onclick='show_more_pfunc(this)'>更多</a>"
+        		return html;
+	    	}, 
+		}
 	],
 
   
@@ -89,6 +89,166 @@ var table = $('#sample-table').DataTable({
 function _call_print_patient(data){
 	var patient = typeof data == 'string' ? JSON.parse(data) : data;
 	print_patient(patient);
+}
+function show_pay(pat_id){
+	$.confirm({
+		title: '缴费',
+	    content: '<form class="form-inline">'+
+		    '<div class="form-group">'+
+			    '<div class="col-md-offset-3"><div class="input-group"><div class="input-group-addon">金额</div><input type="text" class="form-control" id="js-payment-amount"><div class="input-group-addon">元</div></div></div>'+
+	  		'</div>'+
+		'</form>',
+	    confirmButton: '缴费',
+	    confirmButtonClass: 'btn-info',
+	    cancelButton: '关闭',
+	    cancelButtonClass: 'btn-warning',
+	    closeIcon: true,
+	    backgroundDismiss: false,
+	    columnClass: 'col-md-6 col-md-offset-3',
+		confirm: function () {
+			var payment_amount = $("#js-payment-amount").val()
+			if (isNaN(payment_amount)) {
+				$.alert({
+	        		title: '提示',
+	        		content: '金额必须输入数字！',
+				    confirmButton: '确定',
+				    confirmButtonClass: 'btn-info',
+	        	});
+	        	return;
+			}
+        	// 进行缴费
+        	$.ajax({
+			    type: 'post',
+			    url: "<?=site_url('patient/pay')?>",
+			    data: {pat_id : pat_id, payment_amount: payment_amount},
+			    success: function(data){
+			    	ajax_success(data, table)
+			    }
+			});
+
+	    },
+	});
+}
+
+function show_more_pfunc(btn){
+	$(btn).text($(btn).text() == '更多' ? '收回' : '更多');
+	$(btn).prev().toggle();
+}
+function show_add_temporary_orders(pat_id){
+<?php if($_SESSION['user']['role'] !== '医生') :?>
+	$.alert({
+		title: '警告',
+	    content: '请使用医生账号添加医嘱',
+	    confirmButton: '确定',
+	    confirmButtonClass: 'btn-warning',
+	    closeIcon: true,
+	    backgroundDismiss: false,
+	    columnClass: 'col-md-6 col-md-offset-3',
+	});
+	return;
+<?php endif;?>
+	$.confirm({
+		title: '添加临时医嘱',
+	    content: '<form>'+
+				  '<div class="form-group">'+
+				    '<label>医嘱内容</label>'+
+				    '<input type="text" name="to_content" class="form-control">'+
+				  '</div>'+
+				  '<div class="form-group">'+
+				    '<label>执行时间</label>'+
+				    '<input type="text" name="execute_time" class="form-control">'+
+				  '</div>'+
+				  '<div class="form-group">'+
+				    '<label>医生签字</label>'+
+				    '&nbsp;&nbsp;&nbsp;<div onclick="claer_doctor_sign()" class="btn btn-xs btn-success">清除</div>'+
+				    '<div><canvas id="js-doctor-sign" style="border:1px solid #000"></canvas></div>'+
+				  '</div>'+
+				'</form>',
+	    confirmButton: '添加',
+	    confirmButtonClass: 'btn-info',
+	    cancelButton: '关闭',
+	    cancelButtonClass: 'btn-warning',
+	    closeIcon: true,
+	    backgroundDismiss: false,
+	    columnClass: 'col-md-6 col-md-offset-3',
+		onOpen: function () {
+	        var canvas = document.querySelector("#js-doctor-sign");
+	    	// console.log(canvas,canvas.parentNode);
+			canvas.width = canvas.parentNode.clientWidth;
+    		canvas.height = '230';
+			window.DOCTOR_SIGN = new SignaturePad(canvas);
+	    },
+		confirm: function () {
+			var payment_amount = $("#js-payment-amount").val()
+			if (isNaN(payment_amount)) {
+				$.alert({
+	        		title: '提示',
+	        		content: '金额必须输入数字！',
+				    confirmButton: '确定',
+				    confirmButtonClass: 'btn-info',
+	        	});
+	        	return;
+			}
+        	// 进行缴费
+        	$.ajax({
+			    type: 'post',
+			    url: "<?=site_url('patient/pay')?>",
+			    data: {pat_id : pat_id, payment_amount: payment_amount},
+			    success: function(data){
+			    	ajax_success(data, table)
+			    }
+			});
+	    },
+	});
+}
+function show_add_standing_orders(pat_id){
+<?php if($_SESSION['user']['role'] !== '医生') :?>
+	$.alert({
+		title: '警告',
+	    content: '请使用医生账号添加医嘱',
+	    confirmButton: '确定',
+	    confirmButtonClass: 'btn-warning',
+	    closeIcon: true,
+	    backgroundDismiss: false,
+	    columnClass: 'col-md-6 col-md-offset-3',
+	});
+	return;
+<?php endif;?>
+	$.confirm({
+		title: '添加长期医嘱',
+	    content: '123',
+	    confirmButton: '添加',
+	    confirmButtonClass: 'btn-info',
+	    cancelButton: '关闭',
+	    cancelButtonClass: 'btn-warning',
+	    closeIcon: true,
+	    backgroundDismiss: false,
+	    columnClass: 'col-md-6 col-md-offset-3',
+		confirm: function () {
+			var payment_amount = $("#js-payment-amount").val()
+			if (isNaN(payment_amount)) {
+				$.alert({
+	        		title: '提示',
+	        		content: '金额必须输入数字！',
+				    confirmButton: '确定',
+				    confirmButtonClass: 'btn-info',
+	        	});
+	        	return;
+			}
+        	// 进行缴费
+        	$.ajax({
+			    type: 'post',
+			    url: "<?=site_url('patient/pay')?>",
+			    data: {pat_id : pat_id, payment_amount: payment_amount},
+			    success: function(data){
+			    	ajax_success(data, table)
+			    }
+			});
+	    },
+	});
+}
+function claer_doctor_sign(){
+	DOCTOR_SIGN.clear();
 }
 </script>
 

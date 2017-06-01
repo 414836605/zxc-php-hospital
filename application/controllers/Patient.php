@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Patient extends CI_Controller {
+class Patient extends Base_Controller {
 
 	public function __construct(){
 		parent::__construct();
@@ -32,6 +32,30 @@ class Patient extends CI_Controller {
 
 		echo json_encode($return);
 		return;
+	}
+
+	public function pay(){
+		$pat_id = $this->input->post('pat_id',true);
+		$payment_amount = $this->input->post('payment_amount',true);
+		if (!$pat_id) {
+			$result['status'] = false;
+			$result['msg'] = '未选择患者';
+			$this->returnResult($result);
+		}
+		if (!is_numeric($payment_amount)) {
+			$result['status'] = false;
+			$result['msg'] = '金额必须是数字';
+			$this->returnResult($result);
+		}
+		if($this->patient_model->pay($pat_id,$payment_amount)){
+			$result['status'] = true;
+			$result['msg'] = '缴费成功';
+			$this->returnResult($result);
+		}else{
+			$result['status'] = false;
+			$result['msg'] = '后台发生错误，缴费失败';
+			$this->returnResult($result);
+		}
 	}
 
 	//datatables获取患者
