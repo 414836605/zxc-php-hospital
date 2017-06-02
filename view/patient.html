@@ -149,14 +149,10 @@ function show_add_temporary_orders(pat_id){
 <?php endif;?>
 	$.confirm({
 		title: '添加临时医嘱',
-	    content: '<form>'+
+	    content: '<form id="js-to-form">'+
 				  '<div class="form-group">'+
 				    '<label>医嘱内容</label>'+
 				    '<input type="text" name="to_content" class="form-control">'+
-				  '</div>'+
-				  '<div class="form-group">'+
-				    '<label>执行时间</label>'+
-				    '<input type="text" name="execute_time" class="form-control">'+
 				  '</div>'+
 				  '<div class="form-group">'+
 				    '<label>医生签字</label>'+
@@ -173,29 +169,21 @@ function show_add_temporary_orders(pat_id){
 	    columnClass: 'col-md-6 col-md-offset-3',
 		onOpen: function () {
 	        var canvas = document.querySelector("#js-doctor-sign");
-	    	// console.log(canvas,canvas.parentNode);
 			canvas.width = canvas.parentNode.clientWidth;
     		canvas.height = '230';
 			window.DOCTOR_SIGN = new SignaturePad(canvas);
 	    },
 		confirm: function () {
-			var payment_amount = $("#js-payment-amount").val()
-			if (isNaN(payment_amount)) {
-				$.alert({
-	        		title: '提示',
-	        		content: '金额必须输入数字！',
-				    confirmButton: '确定',
-				    confirmButtonClass: 'btn-info',
-	        	});
-	        	return;
-			}
+			var temp_orders = $('#js-to-form').serializeArray();
+			temp_orders.push({name:'doctor_sign',value: DOCTOR_SIGN.toDataURL()});
+			temp_orders.push({name:'pat_id',value: pat_id});
         	// 进行缴费
         	$.ajax({
 			    type: 'post',
-			    url: "<?=site_url('patient/pay')?>",
-			    data: {pat_id : pat_id, payment_amount: payment_amount},
+			    url: "<?=site_url('Orders/add_temporary_orders')?>",
+			    data: temp_orders,
 			    success: function(data){
-			    	ajax_success(data, table)
+			    	ajax_success(data, null)
 			    }
 			});
 	    },
@@ -216,7 +204,21 @@ function show_add_standing_orders(pat_id){
 <?php endif;?>
 	$.confirm({
 		title: '添加长期医嘱',
-	    content: '123',
+	    content: '<form id="js-so-form">'+
+				  '<div class="form-group">'+
+				    '<label>医嘱内容</label>'+
+				    '<input type="text" name="so_content" class="form-control">'+
+				  '</div>'+
+				  '<div class="form-group">'+
+				    '<label>开始执行时间</label>'+
+				    '<input type="text" name="start_time" class="form-control">'+
+				  '</div>'+
+				  '<div class="form-group">'+
+				    '<label>医生签字</label>'+
+				    '&nbsp;&nbsp;&nbsp;<div onclick="claer_doctor_sign()" class="btn btn-xs btn-success">清除</div>'+
+				    '<div><canvas id="js-doctor-sign" style="border:1px solid #000"></canvas></div>'+
+				  '</div>'+
+				'</form>',
 	    confirmButton: '添加',
 	    confirmButtonClass: 'btn-info',
 	    cancelButton: '关闭',
@@ -224,24 +226,35 @@ function show_add_standing_orders(pat_id){
 	    closeIcon: true,
 	    backgroundDismiss: false,
 	    columnClass: 'col-md-6 col-md-offset-3',
+		onOpen: function () {
+	        var canvas = document.querySelector("#js-doctor-sign");
+	    	// console.log(canvas,canvas.parentNode);
+			canvas.width = canvas.parentNode.clientWidth;
+    		canvas.height = '230';
+			window.DOCTOR_SIGN = new SignaturePad(canvas);
+			$('#js-so-form input[name="start_time"]').daterangepicker($.extend(true, {
+				"startDate": moment(),
+				"minDate": moment(),
+			    "singleDatePicker": true,
+			    "timePicker": true,
+			    "timePicker24Hour": true,
+				locale: {
+					format: 'YYYY-MM-DD HH:mm:ss'
+				}
+			}, datarangepickerChineseSet));
+			$('.daterangepicker').css('z-index','999999999');
+	    },
 		confirm: function () {
-			var payment_amount = $("#js-payment-amount").val()
-			if (isNaN(payment_amount)) {
-				$.alert({
-	        		title: '提示',
-	        		content: '金额必须输入数字！',
-				    confirmButton: '确定',
-				    confirmButtonClass: 'btn-info',
-	        	});
-	        	return;
-			}
+			var standing_orders = $('#js-so-form').serializeArray();
+			standing_orders.push({name:'doctor_sign',value: DOCTOR_SIGN.toDataURL()});
+			standing_orders.push({name:'pat_id',value: pat_id});
         	// 进行缴费
         	$.ajax({
 			    type: 'post',
-			    url: "<?=site_url('patient/pay')?>",
-			    data: {pat_id : pat_id, payment_amount: payment_amount},
+			    url: "<?=site_url('Orders/add_standing_orders')?>",
+			    data: standing_orders,
 			    success: function(data){
-			    	ajax_success(data, table)
+			    	ajax_success(data, null)
 			    }
 			});
 	    },

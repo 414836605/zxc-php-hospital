@@ -22,6 +22,7 @@ class User extends CI_Controller {
 		$user_pwd = md5($this->input->post('user_pwd'));
 
 		if ($user = $this->user_model->get_user_by_id_and_pwd($user_id, $user_pwd)) {
+			$user_session['id'] = $user_id;
 			switch ($user['user_type']) {
 				case '1':
 					$user_detail = $this->doctor_model->get_doctor_by_id($user['person_id']);

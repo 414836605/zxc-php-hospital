@@ -21,6 +21,8 @@ class Patient extends Base_Controller {
 		$this->load->view('footer.inc.html');
 	}
 
+	
+
 	public function add_medical_record(){
 		$this->output->set_header('Content-Type: application/json; charset=utf-8');
 		$data['pat_id'] = $this->input->post_get('pat_id');

@@ -1,3 +1,12 @@
+/upload/*
+/view/node_modules/*
+
+# bootstrap-daterangepicker
+!/view/node_modules/bootstrap-daterangepicker
+/view/node_modules/bootstrap-daterangepicker/*
+!/view/node_modules/bootstrap-daterangepicker/daterangepicker.*
+!/view/node_modules/bootstrap-daterangepicker/moment.*
+
 .DS_Store
 
 application/cache/*

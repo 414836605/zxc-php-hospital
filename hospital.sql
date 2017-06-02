@@ -204,7 +204,7 @@ create table temporary_orders(
 	create_time int(13) not null comment '创建时间',
 	execute_time int(13) default '0' comment  '执行时间',
 	doctor_name varchar(20) not null comment '医生姓名',
-	doctor_sign varchar(255) not null comment '医生签字图片路径',
+	doctor_sign varchar(255) not null default '' comment '医生签字图片路径',
 	nurse_name varchar(20) default '' comment '护士姓名',
 	nurse_sign varchar(255) default '' comment '护士签字图片路径',
 	pat_id int(11) not null comment '所属患者id',
