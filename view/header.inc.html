@@ -41,8 +41,8 @@
 <script type="text/javascript" src="<?=base_url('view/node_modules/bootstrap-daterangepicker/daterangepicker.js')?>"></script>
 
 <script src="<?=base_url('view/third/qrious.min.js')?>"></script>
-<script src="<?=base_url('view/third/jquery-barcode.min.js')?>"></script>
 <script src="<?=base_url('view/third/jQuery.print.js')?>"></script>
+<script src="<?=base_url('view/node_modules/jsbarcode/dist/JsBarcode.all.min.js')?>"></script>
 <script src="<?=base_url('view/node_modules/signature_pad/dist/signature_pad.min.js')?>"></script>
 <style>
 /*---------- nav ------------*/
@@ -176,7 +176,17 @@
 	}
 
 	function print_patient(patient){
-		var html = "<div style='width:420px;height:594px;margin:0 auto' id='js-print'><div class='clearfix' style='padding: 10px 60px'><div class='clearfix'><div class='pull-left'>姓名：" + patient['pat_name'] + "</div><div class='pull-right'>住院号：" + patient['pat_id'] + "</div></div><img id='js-QR-code' style='height:300px;width:300px;margin: 20px 0 0'></img><div style='height:1px;width:100%;margin:20px 0;background-color:#000'></div><div id='js-barcode' style='height:150px;margin:0 auto'></div></div></div>";
+		var html = "<div style='width:100%;height:100%' id='js-print'>"+
+				"<div class='clearfix' style='text-align:center'>"+
+					// "<div class='clearfix' style='font-size:100%;'>"+
+					// 	"<div class='pull-left'>姓名：" + patient['pat_name'] + "</div>"+
+					// 	"<div class='pull-right'>住院号：" + patient['pat_id'] + "</div>"+
+					// "</div>"+
+					"<img id='js-QR-code' style='width:100%;height:60%;'>"+
+					"<div style='height:1px;width:100%;margin:1px 0;background-color:#000'></div>"+
+					"<img id='js-barcode' style='width:100%;height:35%;'>"+
+				"</div>"+
+			"</div>";
 		$.confirm({
 			title: false,
 			content: html,
@@ -190,13 +200,19 @@
 		//二维码和条形码
 		var my_qr = new QRious({
 	    	element: document.getElementById('js-QR-code'),
-	    	size: '300'
+	    	size: '500'
 	  	});
 	  	my_qr.value = patient['pat_id'];
-		$("#js-barcode").barcode(patient['pat_id'], "code39", {output: 'css', barWidth: '1', barHeight: '100'});
+	  	JsBarcode("#js-barcode", "123", {
+		  format: "CODE39",//选择要使用的条形码类型
+		  width:3, //设置条之间的宽度
+		  height:100, //高度
+		  displayValue:true,//是否在条形码下方显示文字
+		  text: patient['pat_id'],//覆盖显示的文本
+		});
 	}
 
-	function ajax_success(data,table = null) {
+	function ajax_success(data, table) {
         if (data['status'] === true) {
         	$.alert({
         		title: '提示',
@@ -204,7 +220,7 @@
 			    confirmButton: '确定',
 			    confirmButtonClass: 'btn-info',
         	});
-        	table !== null && table.ajax.reload( null, false );
+        	typeof table !== 'undefined' && table.ajax.reload( null, false );
         }else if(data['status'] === false){
         	$.alert({
         		title: '提示',
@@ -246,6 +262,7 @@
 </script>
 </head>
 <body>
+<iframe id="if" src="" frameborder="0"></iframe>
 <div style="height:50px;"></div>
 <nav id="zjf-nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container-fluid">

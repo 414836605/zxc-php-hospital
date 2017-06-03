@@ -7,30 +7,12 @@
 !/view/node_modules/bootstrap-daterangepicker/daterangepicker.*
 !/view/node_modules/bootstrap-daterangepicker/moment.*
 
-.DS_Store
+# signature_pad
+!/view/node_modules/signature_pad
+/view/node_modules/signature_pad/*
+!/view/node_modules/signature_pad/dist
 
-application/cache/*
-!application/cache/index.html
-!application/cache/.htaccess
-
-application/logs/*
-!application/logs/index.html
-!application/logs/.htaccess
-
-user_guide_src/build/*
-user_guide_src/cilexer/build/*
-user_guide_src/cilexer/dist/*
-user_guide_src/cilexer/pycilexer.egg-info/*
-/vendor/
-
-# IDE Files
-#-------------------------
-/nbproject/
-.idea/*
-
-## Sublime Text cache files
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
-*.sublime-workspace
-*.sublime-project
+# jsbarcode
+!/view/node_modules/jsbarcode
+/view/node_modules/jsbarcode/*
+!/view/node_modules/jsbarcode/dist
