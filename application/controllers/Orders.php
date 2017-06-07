@@ -11,12 +11,12 @@ class Orders extends Base_Controller {
 		$data['doctor_name'] = $this->input->post_get('doctor_name');
 		$data['pat_id'] = $this->input->post_get('pat_id');
 		$data['create_time'] = time();
-		$data['doctor_sign'] = $this->input->post_get('doctor_sign');
+		$data['doctor_sign'] = explode(",", $this->input->post_get('doctor_sign'));
 		if (!$data['doctor_name']) {
 			$data['doctor_name'] = $_SESSION['user']['name'];
 		}
-		if ($data['doctor_sign'] && explode(",", $data['doctor_sign'])[0] === 'data:image/png;base64') {
-			$encoded_image = explode(",", $data['doctor_sign'])[1];
+		if ($data['doctor_sign'] && $data['doctor_sign'][0] === 'data:image/png;base64') {
+			$encoded_image = $data['doctor_sign'][1];
 			$decoded_image = base64_decode($encoded_image);
 			$img_path = 'upload/temporary_orders/doctor_sign/'.uniqID($_SESSION['user']['id'], true).'.png';
 			if(!is_dir('upload/temporary_orders/doctor_sign/')) {//检测是否存在
