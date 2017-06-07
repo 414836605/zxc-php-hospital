@@ -327,7 +327,8 @@ class Patient extends Base_Controller {
 		/*!以后要加文件锁，防止重复读*/
 		$hinfo_json = file_get_contents($file_name);
 		$hinfo = json_decode($hinfo_json);
-		$today = date('ymd',time());
+		// $today = date('ymd',time());
+		$today = date('d',time());
 		if ($hinfo->today == $today) {
 			//患者数大于9999提示'患者数超限'，退出
 			$hinfo->today_patient > 9999 AND exit('患者数超限');
