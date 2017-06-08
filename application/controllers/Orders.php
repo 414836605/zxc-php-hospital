@@ -70,15 +70,15 @@ class Orders extends Base_Controller {
 		$data['start_create_time'] = time();
 		$return['state'] = $this->orders_model->add_standing_orders($data) ? '1' : '0';
 
-		$data['start_doctor_sign'] = $this->input->post_get('doctor_sign');
+		$data['start_doctor_sign'] = explode(",", $this->input->post_get('doctor_sign'));
 		if (!$data['start_doctor_name']) {
 			$data['start_doctor_name'] = $_SESSION['user']['name'];
 		}
 		if (!is_numeric($data['start_time'])) {//不是时间戳
 			$data['start_time'] = strtotime($data['start_time']);
 		}
-		if ($data['start_doctor_sign'] && explode(",", $data['start_doctor_sign'])[0] === 'data:image/png;base64') {
-			$encoded_image = explode(",", $data['start_doctor_sign'])[1];
+		if ($data['start_doctor_sign'] && $data['start_doctor_sign'][0] === 'data:image/png;base64') {
+			$encoded_image = $data['start_doctor_sign'][1];
 			$decoded_image = base64_decode($encoded_image);
 			$img_path = 'upload/standing_orders/doctor_sign/'.uniqID($_SESSION['user']['id'], true).'.png';
 			if(!is_dir('upload/standing_orders/doctor_sign/')) {//检测是否存在
