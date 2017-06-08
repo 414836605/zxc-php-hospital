@@ -29,10 +29,12 @@ class Orders extends Base_Controller {
 			$data['doctor_sign'] = 'upload/temporary_orders/doctor_sign/none_sign.png';
 		}
 		if ($this->orders_model->add_temporary_orders($data)) {
-			$result['status'] = $result['state'] = true;
+			$result['state'] = 1;
+			$result['status'] = true;
 			$result['msg'] = '临时医嘱添加成功';
 		}else{
-			$result['status'] = $result['state'] = false;
+			$result['state'] = 0;
+			$result['status'] = false;
 			$result['msg'] = '服务器错误，临时医嘱添加失败';
 		}
 		$this->returnResult($result);
@@ -91,10 +93,12 @@ class Orders extends Base_Controller {
 			$data['start_doctor_sign'] = 'upload/standing_orders/doctor_sign/none_sign.png';
 		}
 		if ($this->orders_model->add_standing_orders($data)) {
-			$result['status'] = $result['state'] = true;
+			$result['state'] = 1;
+			$result['status'] = true;
 			$result['msg'] = '长期医嘱添加成功';
 		}else{
-			$result['status'] = $result['state'] = false;
+			$result['state'] = 0;
+			$result['status'] = false;
 			$result['msg'] = '服务器错误，长期医嘱添加失败';
 		}
 		$this->returnResult($result);
