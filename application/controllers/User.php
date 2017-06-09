@@ -52,6 +52,45 @@ class User extends CI_Controller {
 		}
 		echo json_encode($result);
 	}
+	//app登录
+	public function login_for_app(){
+		//$this->output->set_header('Content-Type: application/json; charset=utf-8');
+		$user_id = $this->input->post('user_id');
+		$user_pwd = md5($this->input->post('user_pwd'));
+
+		if ($user = $this->user_model->get_user_by_id_and_pwd($user_id, $user_pwd)) {
+			$user_session['id'] = $user_id;
+			switch ($user['user_type']) {
+				case '1':
+					$user_detail = $this->doctor_model->get_doctor_by_id($user['person_id']);
+					$user_session['name'] = $user_detail['doc_name'];
+					$user_session['role'] = '医生';
+					break;
+				case '2':
+					$user_detail = $this->nurse_model->get_nurse_by_id($user['person_id']);
+					$user_detail['doc_name'] = $user_detail['nur_name'];
+					$user_session['name'] = $user_detail['nur_name'];
+					$user_session['role'] = '护士';
+					break;
+				default:
+					$user_detail = null;
+					$user_session['name'] = $user['user_id'];
+					$user_session['role'] = '管理员';
+					break;
+			}
+			
+			//添加session
+			$_SESSION['user'] = $user_session;
+
+			$result['user_detail'] = $user_detail;
+			$result['state'] = 1;
+			$result['role'] = $user['user_type'];
+		}else{
+			$result['state'] = 0;
+		}
+		echo json_encode($result);
+	}
+
 
 	//注销
 	public function logout(){
