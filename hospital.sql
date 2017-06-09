@@ -18,7 +18,7 @@ create table user(
 ) engine=InnoDB default charset=utf8;
 INSERT INTO `hospital`.`user` (`user_id`, `user_pwd`, `user_type`, `person_id`) VALUES ('admin', MD5('123456'), '0', '0');
 INSERT INTO `hospital`.`user` (`user_id`, `user_pwd`, `user_type`, `person_id`) VALUES ('doctor', MD5('123456'), '1', '1');
-INSERT INTO `hospital`.`user` (`user_id`, `user_pwd`, `user_type`, `person_id`) VALUES ('nurse', MD5('123456'), '1', '1');
+INSERT INTO `hospital`.`user` (`user_id`, `user_pwd`, `user_type`, `person_id`) VALUES ('nurse', MD5('123456'), '2', '1');
 
 
 /*-----患者表-----*/
