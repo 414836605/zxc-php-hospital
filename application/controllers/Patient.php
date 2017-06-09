@@ -332,7 +332,7 @@ class Patient extends Base_Controller {
 		if ($hinfo->today == $today) {
 			//患者数大于9999提示'患者数超限'，退出
 			$hinfo->today_patient > 9999 AND exit('患者数超限');
-			$patient['pat_id'] = $today . sprintf("%04d", $hinfo->today_patient);
+			$patient['pat_id'] = '1' . $today . sprintf("%04d", $hinfo->today_patient);
 			$hinfo->today_patient++;
 		}else{
 			$hinfo->today = $today;

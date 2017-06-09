@@ -204,7 +204,8 @@
 	  	});
 	  	my_qr.value = patient['pat_id'];
 	  	JsBarcode("#js-barcode", patient['pat_id'], {
-		  format: "CODE39",//选择要使用的条形码类型
+		  format: "ean8",
+  		  flat: true,
 		  height:100, //高度
 		  displayValue:true,//是否在条形码下方显示文字
 		});
