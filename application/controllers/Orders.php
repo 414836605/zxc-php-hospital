@@ -47,7 +47,6 @@ class Orders extends Base_Controller {
 		$data['execute_time'] = time();
 		
 		$return['state'] = $this->orders_model->execute_temporary_orders($data) ? '1' : '0';
-		var_dump(json_encode($return));
 		echo json_encode($return);
 		return;
 	}
